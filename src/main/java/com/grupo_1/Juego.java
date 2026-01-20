@@ -1,6 +1,6 @@
-package com.example;
+package com.grupo_1;
 
-public class Main {
+public class Juego {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
