@@ -1,0 +1,13 @@
+.root,
+.button {
+    -fx-background-color: white;
+}
+
+.button{
+    -fx-border-color: rgb(0, 0, 0);
+}
+
+.label{
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
