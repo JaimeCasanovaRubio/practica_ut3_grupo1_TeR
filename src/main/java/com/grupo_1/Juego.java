@@ -1,8 +1,13 @@
 package com.grupo_1;
 
+/**
+ * Lógica del juego Tic-Tac-Toe para dos jugadores.
+ * No incluye CPU - son dos jugadores humanos que alternan turnos.
+ */
 public class Juego {
     private char[] tablero; // Array de 9 posiciones (0-8)
     private boolean juegoActivo;
+    private char turnoActual; // 'X' o 'O'
 
     public Juego() {
         tablero = new char[9];
@@ -10,65 +15,74 @@ public class Juego {
             tablero[i] = '-'; // Representa casilla vacía
         }
         this.juegoActivo = true;
+        this.turnoActual = 'X'; // X siempre empieza
     }
 
     /**
-     * Procesa el turno del jugador y el de la CPU.
-     * @return El estado de la partida tras los movimientos.
+     * Obtiene el jugador que tiene el turno actual.
+     * 
+     * @return 'X' o 'O'
      */
-    public String ejecutarTurno(int fila, int columna) {
+    public char getTurnoActual() {
+        return turnoActual;
+    }
+
+    /**
+     * Procesa el turno del jugador.
+     * 
+     * @param fila    Fila (0-2)
+     * @param columna Columna (0-2)
+     * @param jugador Ficha del jugador ('X' o 'O')
+     * @return El estado de la partida tras el movimiento.
+     */
+    public String ejecutarTurno(int fila, int columna, char jugador) {
+        // Verificar que es el turno correcto
+        if (jugador != turnoActual) {
+            return "NO_ES_TU_TURNO";
+        }
+
         int indice = (fila * 3) + columna;
 
-        // 1. Validar movimiento
+        // Validar movimiento
         if (indice < 0 || indice > 8 || tablero[indice] != '-') {
-            return "ERROR MOVIMIENTO";
+            return "ERROR_MOVIMIENTO";
         }
 
-        // 2. Movimiento del Jugador (X)
-        tablero[indice] = 'X';
+        // Realizar movimiento
+        tablero[indice] = jugador;
 
-        if (comprobarGanador('X')) {
+        // Comprobar victoria
+        if (comprobarGanador(jugador)) {
             juegoActivo = false;
-            return "GANASTE";
+            return "GANADOR_" + jugador;
         }
 
+        // Comprobar empate
         if (estaTableroLleno()) {
             juegoActivo = false;
             return "EMPATE";
         }
 
-        // 3. Movimiento de la CPU (O)
-        realizarMovimientoCPU();
-
-        if (comprobarGanador('O')) {
-            juegoActivo = false;
-            return "PERDISTE";
-        }
-
-        if (estaTableroLleno()) {
-            juegoActivo = false;
-            return "EMPATE";
-        }
+        // Cambiar turno
+        turnoActual = (turnoActual == 'X') ? 'O' : 'X';
 
         return "CONTINUA";
     }
 
-    private void realizarMovimientoCPU() {
-        // Busca la primera casilla libre
-        for (int i = 0; i < 9; i++) {
-            if (tablero[i] == '-') {
-                tablero[i] = 'O';
-                break;
-            }
-        }
+    /**
+     * Método legacy para compatibilidad (sin especificar jugador).
+     * Usa el turno actual.
+     */
+    public String ejecutarTurno(int fila, int columna) {
+        return ejecutarTurno(fila, columna, turnoActual);
     }
 
     public boolean comprobarGanador(char jugador) {
         // Combinaciones posibles de victoria
         int[][] combinaciones = {
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Horizontales
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Verticales
-                {0, 4, 8}, {2, 4, 6}             // Diagonales
+                { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 }, // Horizontales
+                { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 }, // Verticales
+                { 0, 4, 8 }, { 2, 4, 6 } // Diagonales
         };
 
         for (int[] c : combinaciones) {
@@ -83,7 +97,8 @@ public class Juego {
 
     public boolean estaTableroLleno() {
         for (char casilla : tablero) {
-            if (casilla == '-') return false;
+            if (casilla == '-')
+                return false;
         }
         return true;
     }
@@ -94,5 +109,16 @@ public class Juego {
 
     public boolean esJuegoActivo() {
         return juegoActivo;
+    }
+
+    /**
+     * Reinicia el juego.
+     */
+    public void reiniciar() {
+        for (int i = 0; i < 9; i++) {
+            tablero[i] = '-';
+        }
+        this.juegoActivo = true;
+        this.turnoActual = 'X';
     }
 }
