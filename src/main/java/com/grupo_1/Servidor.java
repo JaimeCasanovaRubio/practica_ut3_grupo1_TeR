@@ -35,7 +35,7 @@ public class Servidor {
             System.out.println("╔═══════════════════════════════════════╗");
             System.out.println("║   SERVIDOR TIC-TAC-TOE MULTIJUGADOR   ║");
             System.out.println("╠═══════════════════════════════════════╣");
-            System.out.println("║   Puerto: " + PUERTO + "                          ║");
+            System.out.println("║   Puerto: " + PUERTO + "                        ║");
             System.out.println("║   Esperando 2 jugadores...            ║");
             System.out.println("╚═══════════════════════════════════════╝");
 
@@ -203,13 +203,10 @@ public class Servidor {
     public static void main(String[] args) {
         Servidor servidor = new Servidor();
 
-        // Iniciar el servidor en un hilo separado
-        Thread hiloServidor = new Thread(() -> servidor.iniciar());
-        hiloServidor.setDaemon(true);
-        hiloServidor.start();
-
-        // Lanzar la interfaz gráfica JavaFX (este será el Jugador 1)
-        javafx.application.Application.launch(JuegoController.class, args);
+        // El servidor se ejecuta en el hilo principal
+        // Los clientes deben ejecutarse por separado usando JuegoController
+        System.out.println("Para conectar clientes, ejecuta JuegoController en terminales separadas.");
+        servidor.iniciar();
     }
 
     // =========================================================================

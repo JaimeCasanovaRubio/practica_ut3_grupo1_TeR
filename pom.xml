@@ -55,7 +55,59 @@
                 <configuration>
                     <mainClass>com.grupo_1.Servidor</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>run-servidor</id>
+                        <configuration>
+                            <mainClass>com.grupo_1.Servidor</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-cliente</id>
+                        <configuration>
+                            <mainClass>com.grupo_1.JuegoController</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Plugin para ejecutar clases Java con exec:java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
             </plugin>
         </plugins>
     </build>
+
+    <!-- Perfiles para ejecutar servidor o cliente -->
+    <profiles>
+        <profile>
+            <id>servidor</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>com.grupo_1.Servidor</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cliente</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>com.grupo_1.JuegoController</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
