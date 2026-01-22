@@ -1,12 +1,27 @@
-.root, .button{
+.root,
+.button {
     -fx-background-color: white;
 }
 
-.button{
+.button:hover{
+    cursor: pointer;
+}
+
+.button {
     -fx-border-color: rgb(0, 0, 0);
 }
 
-.label{
+.label {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
+}
+
+#btnVolverJugar {
+    -fx-border-color: transparent;
+    -fx-border-radius: 100%;
+    -fx-font-weight: bold;
+}
+
+#btnVolverJugar:hover {
+    -fx-background-color: #cccccc;
 }

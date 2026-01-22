@@ -80,6 +80,7 @@
          <children>
             <Rectangle fx:id="rectJugador" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="600.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
             <Label fx:id="lblTitulo" alignment="CENTER" layoutX="43.0" layoutY="123.0" prefWidth="125.0" text="TURNO DE J1" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="btnVolverJugar" layoutX="80.0" layoutY="288.0" mnemonicParsing="false" onAction="#doVolverJugar" text="Button" />
          </children>
       </AnchorPane>
    </children>
