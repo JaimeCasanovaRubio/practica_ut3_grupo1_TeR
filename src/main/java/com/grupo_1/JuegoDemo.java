@@ -18,6 +18,14 @@ public class JuegoDemo implements Initializable {
     private Jugador j1, j2;
     private Jugador turno;
 
+    public Button[] getBotones() {
+        return botones;
+    }
+
+    public ImageView[] getImagenes() {
+        return imagenes;
+    }
+
     private static final int[][] LINEAS_GANADORAS = {
             { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
             { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
@@ -164,5 +172,4 @@ public class JuegoDemo implements Initializable {
             return imagen;
         }
     }
-
 }
