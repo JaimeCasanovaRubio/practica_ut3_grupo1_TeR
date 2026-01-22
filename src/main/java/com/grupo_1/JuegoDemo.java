@@ -34,7 +34,7 @@ public class JuegoDemo implements Initializable {
     private Rectangle rectJugador;
 
     @FXML
-    private Button btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22;
+    private Button btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22, btnVolverJugar;
     @FXML
     private ImageView img00, img01, img02, img10, img11, img12, img20, img21, img22;
 
@@ -143,6 +143,7 @@ public class JuegoDemo implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+<<<<<<< HEAD
         // Inicializar arrays de botones e imágenes
         botones = new Button[] { btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22 };
         imagenes = new ImageView[] { img00, img01, img02, img10, img11, img12, img20, img21, img22 };
@@ -150,6 +151,19 @@ public class JuegoDemo implements Initializable {
         // Cargar imágenes de las fichas
         imagenX = new Image(getClass().getResourceAsStream("/cara.png"));
         imagenO = new Image(getClass().getResourceAsStream("/cruz.png"));
+=======
+
+        btnVolverJugar.setText("Reiniciar");
+        btnVolverJugar.setVisible(false);
+        botones = new Button[] { btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22 };
+        imagenes = new ImageView[] { img00, img01, img02, img10, img11, img12, img20, img21, img22 };
+
+        for (Button b: botones)
+            b.setText("");
+
+        for (int i = 0; i < 9; i++)
+            tablero[i] = new Casilla();
+>>>>>>> 8719b3822d6ed03df3d39fc581bdc74cca2998d1
 
         // Deshabilitar tablero hasta que se asigne turno
         deshabilitarTablero();
@@ -167,6 +181,28 @@ public class JuegoDemo implements Initializable {
      * Envía el movimiento al servidor.
      */
     @FXML
+    void doVolverJugar(ActionEvent e) {
+        for (Casilla c : tablero)
+            c.reset();
+
+        j1.reset();
+        j2.reset();
+
+        // Reset visual
+        for (int i = 0; i < botones.length; i++) {
+            botones[i].setDisable(false);
+            botones[i].setVisible(true);
+            imagenes[i].setImage(null);
+        }
+
+        // Reset estado
+        turno = j1;
+        btnVolverJugar.setVisible(false);
+
+        actualizarTurnoUI();
+    }
+
+    @FXML
     void doMarcarCasilla(ActionEvent e) {
         Button b = (Button) e.getSource();
         int index = java.util.Arrays.asList(botones).indexOf(b);
@@ -175,9 +211,21 @@ public class JuegoDemo implements Initializable {
         int fila = index / 3;
         int columna = index % 3;
 
+<<<<<<< HEAD
         // Enviar movimiento al servidor
         if (cliente != null) {
             cliente.enviarMovimiento(fila, columna);
+=======
+        c.marcar(turno);
+        turno.marcar(index);
+        b.setVisible(false);
+        imagenes[index].setImage(turno.getImagen());
+
+        if (hayGanador(turno)) {
+            mostrarGanador(turno);
+            btnVolverJugar.setVisible(true);
+            return;
+>>>>>>> 8719b3822d6ed03df3d39fc581bdc74cca2998d1
         }
 
         // Deshabilitar temporalmente hasta recibir respuesta
@@ -231,4 +279,79 @@ public class JuegoDemo implements Initializable {
         }
         bloquearTablero();
     }
+<<<<<<< HEAD
+=======
+
+    private void mostrarEmpate() {
+        lblTitulo.setText("EMPATE");
+        rectJugador.setStyle("-fx-fill: lightblue");
+        bloquearTablero();
+    }
+
+    private void bloquearTablero() {
+        for (Button b : botones)
+            b.setDisable(true);
+    }
+
+    private void actualizarTurnoUI() {
+        lblTitulo.setText("TURNO DE: " + turno.getNombre().toUpperCase());
+        rectJugador.setStyle(turno == j1
+                ? "-fx-fill: rgba(255,250,91,100)"
+                : "-fx-fill: rgba(253,124,124,100)");
+    }
+
+    private class Casilla {
+        private Jugador jugador;
+
+        boolean estaMarcada() {
+            return jugador != null;
+        }
+
+        void marcar(Jugador j) {
+            jugador = j;
+        }
+
+        Jugador getJugador() {
+            return jugador;
+        }
+
+        void reset() {
+            jugador = null;
+        }
+    }
+
+    private class Jugador {
+        private final String nombre;
+        private final Image imagen;
+        private final ArrayList<Integer> posiciones = new ArrayList<>();
+
+        Jugador(String nombre, String img) {
+            this.nombre = nombre;
+            this.imagen = new Image(getClass().getResourceAsStream(img));
+        }
+
+        boolean tieneCasillas(int[] linea) {
+            for (int p : linea)
+                if (!posiciones.contains(p))
+                    return false;
+            return true;
+        }
+
+        void marcar(int pos) {
+            posiciones.add(pos);
+        }
+
+        String getNombre() {
+            return nombre;
+        }
+
+        Image getImagen() {
+            return imagen;
+        }
+
+        void reset() {
+            posiciones.clear();
+        }
+    }
+>>>>>>> 8719b3822d6ed03df3d39fc581bdc74cca2998d1
 }
