@@ -407,4 +407,6 @@ public class JuegoDemo implements Initializable {
             casillas.add(c);
         }
     }
+    public ArrayList<Button> getBotones() { return botones; }
+    public ArrayList<ImageView> getImagenes() { return imagenes; }
 }
