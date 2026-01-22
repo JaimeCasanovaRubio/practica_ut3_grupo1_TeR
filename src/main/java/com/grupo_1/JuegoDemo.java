@@ -1,6 +1,5 @@
 package com.grupo_1;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -15,396 +14,155 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class JuegoDemo implements Initializable {
-
-    private ArrayList<Casilla> casillas = new ArrayList<>();
-    private ArrayList<Button> botones = new ArrayList<>();
-    private ArrayList<ImageView> imagenes = new ArrayList<>();
-
-    private String turno;
+    private Casilla[] tablero = new Casilla[9];
     private Jugador j1, j2;
+    private Jugador turno;
+
+    private static final int[][] LINEAS_GANADORAS = {
+            { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
+            { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
+            { 0, 4, 8 }, { 2, 4, 6 }
+    };
 
     @FXML
     private Label lblTitulo;
-
     @FXML
     private Rectangle rectJugador;
 
     @FXML
-    private Button btn02;
-
+    private Button btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22;
     @FXML
-    private Button btn00;
+    private ImageView img00, img01, img02, img10, img11, img12, img20, img21, img22;
 
-    @FXML
-    private Button btn01;
-
-    @FXML
-    private Button btn10;
-
-    @FXML
-    private Button btn11;
-
-    @FXML
-    private Button btn12;
-
-    @FXML
-    private Button btn20;
-
-    @FXML
-    private Button btn21;
-
-    @FXML
-    private Button btn22;
-
-    @FXML
-    private ImageView img00;
-
-    @FXML
-    private ImageView img01;
-
-    @FXML
-    private ImageView img02;
-
-    @FXML
-    private ImageView img10;
-
-    @FXML
-    private ImageView img11;
-
-    @FXML
-    private ImageView img12;
-
-    @FXML
-    private ImageView img20;
-
-    @FXML
-    private ImageView img21;
-
-    @FXML
-    private ImageView img22;
-
-    @FXML
-    void doMarcarCasilla(ActionEvent event) {
-        Button b = (Button) event.getSource();
-        for (Button but : botones) {
-            but.setStyle("-fx-background-color: white;");
-        }
-
-        switch (b.getId()) {
-            case "btn00" -> {
-                Casilla c = casillas.get(0);
-                if (!c.estaMarcada()) {
-                    btn00.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img00.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img00.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn01" -> {
-                Casilla c = casillas.get(1);
-                if (!c.estaMarcada()) {
-                    btn01.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img01.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img01.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn02" -> {
-                Casilla c = casillas.get(2);
-                if (!c.estaMarcada()) {
-                    btn02.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img02.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img02.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn10" -> {
-                Casilla c = casillas.get(3);
-                if (!c.estaMarcada()) {
-                    btn10.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img10.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img10.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn11" -> {
-                Casilla c = casillas.get(4);
-                if (!c.estaMarcada()) {
-                    btn11.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img11.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img11.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn12" -> {
-                Casilla c = casillas.get(5);
-                if (!c.estaMarcada()) {
-                    btn12.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img12.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img12.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn20" -> {
-                Casilla c = casillas.get(6);
-                if (!c.estaMarcada()) {
-                    btn20.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img20.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img20.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn21" -> {
-                Casilla c = casillas.get(7);
-                if (!c.estaMarcada()) {
-                    btn21.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img21.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img21.setImage(j2.getImagen());
-                    }
-                }
-            }
-            case "btn22" -> {
-                Casilla c = casillas.get(8);
-                if (!c.estaMarcada()) {
-                    btn22.setVisible(false);
-                    if (turno.equals(j1.getNombre())) {
-                        c.marcar(j1);
-                        img22.setImage(j1.getImagen());
-                    } else {
-                        c.marcar(j2);
-                        img22.setImage(j2.getImagen());
-                    }
-                }
-            }
-        }
-
-        cambiarTurno();
-        comprobarGanador();
-    }
-
-    private void comprobarGanador() {
-        int contador1 = j1.getCasillas().size();
-        int contador2 = j2.getCasillas().size();
-        Jugador ganador = null;
-
-        if (contador1 >= 3 && contador2 < 3) {
-            ArrayList<Casilla> ca = j1.getCasillas();
-            System.out.println("Jugador 1 casillas: ");
-            for (Casilla cas : ca) {
-                System.out.println(cas.getPosicion());
-            }
-
-            if (comprobarLinea(ca)) {
-                reset();
-                ganador = j1;
-            }
-        } else if (contador2 >= 3) {
-            ArrayList<Casilla> ca = j2.getCasillas();
-            System.out.println("Jugador 2 casillas: ");
-            for (Casilla cas : ca) {
-                System.out.println(cas.getPosicion());
-            }
-
-            if (comprobarLinea(ca)) {
-                reset();
-                ganador = j2;
-            } else {
-                reset();
-                btn11.setText("EMPATE");
-                rectJugador.setStyle("-fx-fill: rgba(97, 214, 243, 100)");
-                lblTitulo.setText("SIN JUGADAS - EMPATE -");
-            }
-
-        }
-        if (ganador != null) {
-            btn11.setText("JUGADOR " + ganador.getNombre().toUpperCase() + " GANA");
-            rectJugador.setStyle("-fx-fill: rgba(255, 227, 117, 185)");
-            lblTitulo.setText("¡"+ganador.getNombre().toUpperCase()+" HA GANADO!");
-        }
-    }
-
-    private boolean comprobarLinea(ArrayList<Casilla> ca) {
-        int f0 = (int) ca.get(0).getPosicion();
-        int f1 = (int) ca.get(1).getPosicion();
-        int f2 = (int) ca.get(2).getPosicion();
-
-        int c0 = (int) Math.round((ca.get(0).getPosicion() - f0) * 10);
-        int c1 = (int) Math.round((ca.get(1).getPosicion() - f1) * 10);
-        int c2 = (int) Math.round((ca.get(2).getPosicion() - f2) * 10);
-
-        // Comprobar fila
-        if (f0 == f1 && f1 == f2)
-            return true;
-
-        // Comprobar columna
-        if (c0 == c1 && c1 == c2)
-            return true;
-
-        // Comprobar diagonales
-        // Diagonal principal: 0.0,1.1,2.2
-        if ((f0 == 0 && c0 == 0 && f1 == 1 && c1 == 1 && f2 == 2 && c2 == 2) ||
-                (f0 == 0 && c0 == 2 && f1 == 1 && c1 == 1 && f2 == 2 && c2 == 0)) { // Diagonal secundaria
-            return true;
-        }
-
-        return false;
-    }
-
-    private void reset() {
-        for (Button b : botones) {
-            b.setVisible(true);
-            b.setDisable(true);
-        }
-        for (ImageView i : imagenes) {
-            i.setVisible(false);
-        }
-    }
-
-    private void cambiarTurno() {
-        if (turno.equals(j1.getNombre())) {
-            rectJugador.setStyle("-fx-fill: rgba(253, 124, 124, 100)");
-            turno = j2.getNombre();
-        } else {
-            rectJugador.setStyle("-fx-fill: rgba(255, 250, 91, 100)");
-            turno = j1.getNombre();
-        }
-        lblTitulo.setText("TURNO DE: " + turno.toUpperCase());
-    }
+    private Button[] botones;
+    private ImageView[] imagenes;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (int i = 0; i <= 22; i += 1) {
-            double val = i / 10.0;
-            casillas.add(new Casilla(val));
 
-            if (i == 2) {
-                i = 9;
-            } else if (i == 12) {
-                i = 19;
-            }
-        }
+        botones = new Button[] { btn00, btn01, btn02, btn10, btn11, btn12, btn20, btn21, btn22 };
+        imagenes = new ImageView[] { img00, img01, img02, img10, img11, img12, img20, img21, img22 };
+
+        for (int i = 0; i < 9; i++)
+            tablero[i] = new Casilla();
 
         j1 = new Jugador("j1", "/cara.png");
         j2 = new Jugador("j2", "/cruz.png");
+        turno = j1;
 
-        rectJugador.setStyle("-fx-fill: rgba(255, 250, 91, 100)");
-        turno = j1.getNombre();
-        lblTitulo.setText("TURNO DE: " + turno);
+        actualizarTurnoUI();
+    }
 
-        botones.add(btn00);
-        botones.add(btn01);
-        botones.add(btn02);
-        botones.add(btn10);
-        botones.add(btn11);
-        botones.add(btn12);
-        botones.add(btn20);
-        botones.add(btn21);
-        botones.add(btn22);
+    @FXML
+    void doMarcarCasilla(ActionEvent e) {
+        Button b = (Button) e.getSource();
+        int index = java.util.Arrays.asList(botones).indexOf(b);
 
-        imagenes.add(img00);
-        imagenes.add(img01);
-        imagenes.add(img02);
-        imagenes.add(img10);
-        imagenes.add(img11);
-        imagenes.add(img12);
-        imagenes.add(img20);
-        imagenes.add(img21);
-        imagenes.add(img22);
+        Casilla c = tablero[index];
+        if (c.estaMarcada())
+            return;
 
-        for (Button b : botones) {
-            b.setText("");
+        c.marcar(turno);
+        b.setVisible(false);
+        imagenes[index].setImage(turno.getImagen());
+
+        if (hayGanador(turno)) {
+            mostrarGanador(turno);
+            return;
         }
+
+        if (tableroLleno()) {
+            mostrarEmpate();
+            return;
+        }
+
+        turno = (turno == j1) ? j2 : j1;
+        actualizarTurnoUI();
+    }
+
+    private boolean hayGanador(Jugador j) {
+        for (int[] linea : LINEAS_GANADORAS) {
+            if (j.tieneCasillas(linea))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean tableroLleno() {
+        for (Casilla c : tablero)
+            if (!c.estaMarcada())
+                return false;
+        return true;
+    }
+
+    private void mostrarGanador(Jugador j) {
+        lblTitulo.setText("¡" + j.getNombre().toUpperCase() + " GANA!");
+        rectJugador.setStyle("-fx-fill: gold");
+        bloquearTablero();
+    }
+
+    private void mostrarEmpate() {
+        lblTitulo.setText("EMPATE");
+        rectJugador.setStyle("-fx-fill: lightblue");
+        bloquearTablero();
+    }
+
+    private void bloquearTablero() {
+        for (Button b : botones)
+            b.setDisable(true);
+    }
+
+    private void actualizarTurnoUI() {
+        lblTitulo.setText("TURNO DE: " + turno.getNombre().toUpperCase());
+        rectJugador.setStyle(turno == j1
+                ? "-fx-fill: rgba(255,250,91,100)"
+                : "-fx-fill: rgba(253,124,124,100)");
     }
 
     private class Casilla {
-        private boolean marcada;
-        private double posicion;
+        private Jugador jugador;
 
-        public Casilla(double p) {
-            this.posicion = p;
+        boolean estaMarcada() {
+            return jugador != null;
         }
 
-        public void marcar(Jugador j) {
-            marcada = true;
-            j.nuevaCasilla(this);
+        void marcar(Jugador j) {
+            jugador = j;
         }
 
-        public boolean estaMarcada() {
-            return marcada;
-        }
-
-        public double getPosicion() {
-            return posicion;
+        Jugador getJugador() {
+            return jugador;
         }
     }
 
     private class Jugador {
-        private Image imagen;
-        private String nombre;
-        private ArrayList<Casilla> casillas;
+        private final String nombre;
+        private final Image imagen;
+        private final ArrayList<Integer> posiciones = new ArrayList<>();
 
-        public Jugador(String nombre, String urlImagen) {
+        Jugador(String nombre, String img) {
             this.nombre = nombre;
-            this.casillas = new ArrayList<>();
-
-            try {
-                InputStream is = getClass().getResourceAsStream(urlImagen);
-                if (is != null) {
-                    this.imagen = new Image(is);
-                } else {
-                    System.err.println("No se pudo cargar la imagen: " + urlImagen);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            this.imagen = new Image(getClass().getResourceAsStream(img));
         }
 
-        public Image getImagen() {
-            return imagen;
+        boolean tieneCasillas(int[] linea) {
+            for (int p : linea)
+                if (!posiciones.contains(p))
+                    return false;
+            return true;
         }
 
-        public String getNombre() {
+        void marcar(int pos) {
+            posiciones.add(pos);
+        }
+
+        String getNombre() {
             return nombre;
         }
 
-        public ArrayList<Casilla> getCasillas() {
-            return casillas;
-        }
-
-        public void nuevaCasilla(Casilla c) {
-            casillas.add(c);
+        Image getImagen() {
+            return imagen;
         }
     }
+
 }

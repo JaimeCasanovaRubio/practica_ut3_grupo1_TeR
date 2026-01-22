@@ -1,5 +1,4 @@
-.root,
-.button {
+.root, .button{
     -fx-background-color: white;
 }
 
