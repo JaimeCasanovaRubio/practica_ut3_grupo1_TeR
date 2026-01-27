@@ -47,7 +47,6 @@ public class JuegoController implements Initializable {
     private PrintWriter out;
     private BufferedReader in;
     private boolean miTurno = false;
-    private Character miSimbolo; // 'x' o 'o'
     private Button[][] botones;
     private ImageView[][] imagenes;
 
@@ -132,13 +131,11 @@ public class JuegoController implements Initializable {
                 habilitarBotones(true);
             } else if (limpio.contains("TURNO DE X")) {
                 miTurno = false;
-                miSimbolo = 'o'; // Si dice turno de X, yo soy O
                 lblTitulo.setText("Turno del rival (X)");
                 rectJugador.setFill(Color.LIGHTCORAL);
                 habilitarBotones(false);
             } else if (limpio.contains("TURNO DE O")) {
                 miTurno = false;
-                miSimbolo = 'x'; // Si dice turno de O, yo soy X
                 lblTitulo.setText("Turno del rival (O)");
                 rectJugador.setFill(Color.LIGHTCORAL);
                 habilitarBotones(false);
@@ -148,7 +145,7 @@ public class JuegoController implements Initializable {
                 finalizarPartida();
             } else if (limpio.contains("Has perdido")) {
                 lblTitulo.setText("Perdiste :(");
-                rectJugador.setFill(Color.DARKRED);
+                rectJugador.setFill(Color.rgb(230, 80, 80));
                 finalizarPartida();
             } else if (limpio.contains("EMPATE")) {
                 lblTitulo.setText("¡Empate!");
@@ -195,9 +192,6 @@ public class JuegoController implements Initializable {
             // Enviar movimiento al servidor
             out.println(fila + " " + columna);
 
-            // Marcar casilla localmente
-            String simbolo = (miSimbolo != null && miSimbolo == 'x') ? "X" : "O";
-            botonPulsado.setText(simbolo);
             botonPulsado.setDisable(true);
 
             miTurno = false;

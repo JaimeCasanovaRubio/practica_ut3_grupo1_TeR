@@ -9,6 +9,7 @@ import java.net.Socket;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Cliente extends Application {
@@ -50,6 +51,7 @@ public class Cliente extends Application {
         stage.setResizable(false);
         stage.setTitle("Tic-Tac-Toe - Cliente");
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
         stage.setOnCloseRequest(event -> cerrarConexion());
         stage.show();
     }
