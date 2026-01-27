@@ -1,7 +1,4 @@
-com\grupo_1\JuegoController.class
-com\grupo_1\JuegoDemo.class
-com\grupo_1\Servidor.class
-com\grupo_1\Juego.class
-com\grupo_1\JuegoDemo$Jugador.class
-com\grupo_1\Cliente.class
-com\grupo_1\JuegoDemo$Casilla.class
+Cliente.class
+Juego.class
+Pruebas.class
+Servidor.class
