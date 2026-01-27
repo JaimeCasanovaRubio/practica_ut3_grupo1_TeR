@@ -5,46 +5,74 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Cliente {
-    public static void main(String[] args) {
-        final String HOST = "localhost";
-        final int PORT = 3030;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-        System.out.println("\n== INICIANDO CLIENTE ==");
+public class Cliente extends Application {
 
-        try (Socket socket = new Socket(HOST, PORT);
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                Scanner sc = new Scanner(System.in)) {
+    private static final String HOST = "localhost";
+    private static final int PORT = 3030;
 
-            System.out.println("Conectado al servidor.\n");
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
-            String linea;
+    @Override
+    public void start(Stage stage) throws Exception {
+        // Cargar el FXML
+        FXMLLoader loader = new FXMLLoader(Cliente.class.getResource("/Interfaz.FXML"));
+        Scene scene = new Scene(loader.load(), 800, 600);
+        scene.getStylesheets().add(getClass().getResource("/Stylesheet.css").toExternalForm());
 
-            while ((linea = in.readLine()) != null) {
+        // Obtener el controlador
+        JuegoController controller = loader.getController();
 
-                // El servidor pide entrada
-                if (linea.trim().equals(">")) {
-                    System.out.print(linea);
-                    String respuesta = sc.nextLine();
-                    out.println(respuesta);
-                }
-                // Fin del juego
-                else if (linea.equals("TERMINADO")) {
-                    System.out.println("\n=== PARTIDA FINALIZADA ===");
-                    break;
-                }
-                // Mensaje normal
-                else {
-                    System.out.println(linea);
-                }
-            }
+        // Conectar al servidor
+        try {
+            socket = new Socket(HOST, PORT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            // Pasar la conexión al controlador
+            controller.setConexion(out, in);
+
+            System.out.println("Conectado al servidor en " + HOST + ":" + PORT);
 
         } catch (IOException e) {
-            System.out.println("Conexión cerrada por el servidor");
+            System.out.println("No se pudo conectar al servidor: " + e.getMessage());
+            controller.setConexion(null, null);
         }
-        System.out.println("\ncerrando sesión...");
+
+        // Configurar ventana
+        stage.setResizable(false);
+        stage.setTitle("Tic-Tac-Toe - Cliente");
+        stage.setScene(scene);
+        stage.setOnCloseRequest(event -> cerrarConexion());
+        stage.show();
+    }
+
+    /**
+     * Cierra la conexión al cerrar la ventana
+     */
+    private void cerrarConexion() {
+        try {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cerrar conexión: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void stop() {
+        cerrarConexion();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

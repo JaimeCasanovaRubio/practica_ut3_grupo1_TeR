@@ -96,38 +96,38 @@ public class Juego implements Runnable {
         for (int i = 0; i < 5; i++) {
             if (casillas[i] != '-') {
                 switch (i) {
-                case 0 -> {
-                    if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
-                            || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))
-                            || (casillas[i].equals(casillas[i + 4]) && casillas[i].equals(casillas[i + 8]))) {
-                        cGanador = casillas[i];
+                    case 0 -> {
+                        if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
+                                || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))
+                                || (casillas[i].equals(casillas[i + 4]) && casillas[i].equals(casillas[i + 8]))) {
+                            cGanador = casillas[i];
+                        }
                     }
-                }
-                case 1 -> {
-                    if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i - 1]))
-                            || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))) {
-                        cGanador = casillas[i];
+                    case 1 -> {
+                        if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i - 1]))
+                                || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))) {
+                            cGanador = casillas[i];
+                        }
                     }
-                }
-                case 2 -> {
-                    if ((casillas[i].equals(casillas[i - 1]) && casillas[i].equals(casillas[i - 2]))
-                            || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))
-                            || (casillas[i].equals(casillas[i + 2]) && casillas[i].equals(casillas[i + 4]))) {
-                        cGanador = casillas[i];
+                    case 2 -> {
+                        if ((casillas[i].equals(casillas[i - 1]) && casillas[i].equals(casillas[i - 2]))
+                                || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i + 6]))
+                                || (casillas[i].equals(casillas[i + 2]) && casillas[i].equals(casillas[i + 4]))) {
+                            cGanador = casillas[i];
+                        }
                     }
-                }
-                case 3 -> {
-                    if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
-                            || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i - 3]))) {
-                        cGanador = casillas[i];
+                    case 3 -> {
+                        if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
+                                || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i - 3]))) {
+                            cGanador = casillas[i];
+                        }
                     }
-                }
-                case 6 -> {
-                    if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
-                            || (casillas[i].equals(casillas[i - 3]) && casillas[i].equals(casillas[i - 6]))) {
-                        cGanador = casillas[i];
+                    case 6 -> {
+                        if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
+                                || (casillas[i].equals(casillas[i - 3]) && casillas[i].equals(casillas[i - 6]))) {
+                            cGanador = casillas[i];
+                        }
                     }
-                }
                 }
             }
         }
@@ -142,16 +142,19 @@ public class Juego implements Runnable {
             outs.get(0).println(MENSAJE_PERDEDOR);
         }
 
+        // Comprobar empate: solo si no hay ganador y todas las casillas están ocupadas
+        empate = true;
         for (Character casilla : casillas) {
             if (casilla.equals('-')) {
                 empate = false;
                 break;
             }
-            empate = true;
         }
 
-        if (empate) {
+        if (empate && ganador == null) {
             mensajeTodos(ANSI_YELLOW + "\n== EMPATE ==" + ANSI_RESET);
+        } else if (ganador != null) {
+            empate = false; // No es empate si hay ganador
         }
 
         if (ganador != null || empate) {
@@ -184,9 +187,9 @@ public class Juego implements Runnable {
             fila = Integer.parseInt(ints[0]);
             columna = Integer.parseInt(ints[1]);
             switch (fila) {
-            case 1 -> posicionCasilla = columna - 1;
-            case 2 -> posicionCasilla = columna + fila;
-            case 3 -> posicionCasilla = columna + fila + 2;
+                case 1 -> posicionCasilla = columna - 1;
+                case 2 -> posicionCasilla = columna + fila;
+                case 3 -> posicionCasilla = columna + fila + 2;
             }
 
             if (!casillas[posicionCasilla].equals('-')) {
@@ -202,6 +205,8 @@ public class Juego implements Runnable {
                     casillas[posicionCasilla] = 'x';
                 else
                     casillas[posicionCasilla] = 'o';
+                // Enviar tablero actualizado a ambos clientes
+                enviarTablero();
             }
 
         } while (ocupada);
@@ -221,7 +226,8 @@ public class Juego implements Runnable {
                     ints = movimiento.split(" ");
                     if (ints.length != 2) {
                         error = true;
-                        pw.println(ANSI_RED + "\n*FORMATO INCORRECTO* Te ha faltado el espacio entre los números" + ANSI_RESET);
+                        pw.println(ANSI_RED + "\n*FORMATO INCORRECTO* Te ha faltado el espacio entre los números"
+                                + ANSI_RESET);
                     } else {
                         try {
                             fila = Integer.parseInt(ints[0]);
@@ -230,7 +236,9 @@ public class Juego implements Runnable {
                             pw.println(ANSI_RED + "\n*FORMATO INCORRECTO* Introduce números enteros" + ANSI_RESET);
                         }
                         if (fila > 3 || fila < 1 || columna > 3 || columna < 1) {
-                            pw.println(ANSI_RED + "*ERROR* Sólo hay 3 columnas y 3 filas. Por favor, introduce un número válido" + ANSI_RESET);
+                            pw.println(ANSI_RED
+                                    + "*ERROR* Sólo hay 3 columnas y 3 filas. Por favor, introduce un número válido"
+                                    + ANSI_RESET);
                             error = true;
                         } else {
                             error = false;
@@ -246,6 +254,20 @@ public class Juego implements Runnable {
     private void mensajeTodos(String mensaje) {
         for (PrintWriter pw : outs) {
             pw.println(ANSI_BLUE + mensaje + ANSI_RESET);
+        }
+    }
+
+    /**
+     * Envía el estado del tablero a ambos clientes en formato estructurado
+     * Formato: TABLERO:xxxxxxxxx (9 caracteres, uno por casilla)
+     */
+    private void enviarTablero() {
+        StringBuilder sb = new StringBuilder("TABLERO:");
+        for (Character c : casillas) {
+            sb.append(c);
+        }
+        for (PrintWriter pw : outs) {
+            pw.println(sb.toString());
         }
     }
 

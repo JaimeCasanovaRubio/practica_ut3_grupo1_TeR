@@ -65,7 +65,7 @@
                     <execution>
                         <id>run-cliente</id>
                         <configuration>
-                            <mainClass>com.grupo_1.JuegoController</mainClass>
+                            <mainClass>com.grupo_1.Cliente</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -103,7 +103,7 @@
                         <groupId>org.openjfx</groupId>
                         <artifactId>javafx-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>com.grupo_1.JuegoController</mainClass>
+                            <mainClass>com.grupo_1.Cliente</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>
