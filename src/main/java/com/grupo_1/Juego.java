@@ -94,7 +94,7 @@ public class Juego implements Runnable {
 
     private void comprobarGanador() {
         Character cGanador = ' ';
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 7; i++) {
             if (casillas[i] != '-') {
                 switch (i) {
                 case 0 -> {
@@ -151,8 +151,10 @@ public class Juego implements Runnable {
             empate = true;
         }
 
-        if (empate) {
+        if (empate && ganador == null) {
             mensajeTodos(ANSI_YELLOW + "\n== EMPATE ==" + ANSI_RESET);
+        }else if (empate && ganador != null){
+            empate = false;
         }
 
         if (ganador != null || empate) {
