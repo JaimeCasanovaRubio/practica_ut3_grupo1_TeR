@@ -62,6 +62,7 @@ public class Juego implements Runnable {
                      - Cuando sea tu turno, escribe la casilla donde quieras colocar tu ficha.
                      - El formato es: 1 1 (fila 1 columna 1)
                      - Para ganar 3 de tus fichas deben estar en línea.
+                     - Introduce 'SALIR' para dejar de juegar.
 
                     ¡¡Buena suerte!!
                     """;
@@ -214,6 +215,13 @@ public class Juego implements Runnable {
             do {
                 pw.println("> ");
                 movimiento = br.readLine();
+                if (movimiento.equalsIgnoreCase("SALIR")){
+                    terminado = true;
+                    for (PrintWriter p: outs){
+                        p.println(ANSI_RED+"\n*Juego cancelado*"+ANSI_RESET);
+                    }
+                    break;
+                }
                 if (movimiento.length() != 3) {
                     error = true;
                     pw.println(ANSI_RED + "\n*FORMATO INCORRECTO* Ejemplo válido: 1 1 (fila 1 columna 1)" + ANSI_RESET);
