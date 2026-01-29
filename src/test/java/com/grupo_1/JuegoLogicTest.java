@@ -1,3 +1,5 @@
+package com.grupo_1;
+
 // JuegoLogicTest.java - Tests para la lógica del juego usando reflexión
 // Sin Mockito por compatibilidad con Java 25
 

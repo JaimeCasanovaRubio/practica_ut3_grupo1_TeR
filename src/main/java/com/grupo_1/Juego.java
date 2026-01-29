@@ -93,8 +93,8 @@ public class Juego implements Runnable {
 
     private void comprobarGanador() {
         Character cGanador = ' ';
-        for (int i = 0; i < 5; i++) {
-            if (casillas[i] != '-') {
+        for (int i = 0; i < 7; i++) {
+            if (!casillas[i].equals('-')) {
                 switch (i) {
                     case 0 -> {
                         if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
@@ -119,6 +119,18 @@ public class Juego implements Runnable {
                     case 3 -> {
                         if ((casillas[i].equals(casillas[i + 1]) && casillas[i].equals(casillas[i + 2]))
                                 || (casillas[i].equals(casillas[i + 3]) && casillas[i].equals(casillas[i - 3]))) {
+                            cGanador = casillas[i];
+                        }
+                    }
+                    case 4 -> {
+                        // Columna central (1, 4, 7)
+                        if (casillas[i].equals(casillas[i - 3]) && casillas[i].equals(casillas[i + 3])) {
+                            cGanador = casillas[i];
+                        }
+                    }
+                    case 5 -> {
+                        // Columna derecha (2, 5, 8)
+                        if (casillas[i].equals(casillas[i - 3]) && casillas[i].equals(casillas[i + 3])) {
                             cGanador = casillas[i];
                         }
                     }
@@ -151,13 +163,13 @@ public class Juego implements Runnable {
             }
         }
 
-        if (empate && ganador == null) {
+        if (empate && ganador == null && !cGanador.equals('x') && !cGanador.equals('o')) {
             mensajeTodos(ANSI_YELLOW + "\n== EMPATE ==" + ANSI_RESET);
-        } else if (ganador != null) {
+        } else if (ganador != null || cGanador.equals('x') || cGanador.equals('o')) {
             empate = false; // No es empate si hay ganador
         }
 
-        if (ganador != null || empate) {
+        if (ganador != null || cGanador.equals('x') || cGanador.equals('o') || empate) {
             terminado = true;
         }
     }
