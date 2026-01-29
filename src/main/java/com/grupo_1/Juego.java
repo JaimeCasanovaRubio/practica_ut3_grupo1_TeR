@@ -55,7 +55,6 @@ public class Juego implements Runnable {
             outs.add(out2);
             ins.add(in1);
             ins.add(in2);
-            String msgOk = "OK";
             String msgBienvenida = "== BIENVENID@ AL JUEGO DE: TRES EN RAYA ==";
             String normas = """
                     Las normas del juego son sencillas:
@@ -67,7 +66,6 @@ public class Juego implements Runnable {
                     ¡¡Buena suerte!!
                     """;
 
-            mensajeTodos(msgOk);
             mensajeTodos(msgBienvenida);
             mensajeTodos(normas);
 

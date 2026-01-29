@@ -28,9 +28,8 @@ Una vez que el hilo de `Juego` comienza, se envía a ambos jugadores la informac
 
 | Paso | Origen   | Destino               | Mensaje / Acción                                                                                                                                                                                                                                                        |
 | :--- | :------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Servidor | Cliente 1 y Cliente 2 | Envía `OK`.                                                                                                                                                                                                                                                             |
-| 2    | Servidor | Cliente 1 y Cliente 2 | Envía `== BIENVENID@ AL JUEGO DE: TRES EN RAYA ==`.                                                                                                                                                                                                                       |
-| 3    | Servidor | Cliente 1 y Cliente 2 | Envía las normas del juego: <br> `Las normas del juego son sencillas:` <br> `- Cuando sea tu turno, escribe la casilla...` <br> `- El formato es: 1 1 (fila 1 columna 1)`<br> `- ...`<br> `- Introduce 'SALIR' para dejar de juegar.` <br> `¡¡Buena suerte!!` |
+| 1    | Servidor | Cliente 1 y Cliente 2 | Envía `== BIENVENID@ AL JUEGO DE: TRES EN RAYA ==`.                                                                                                                                                                                                                       |
+| 2    | Servidor | Cliente 1 y Cliente 2 | Envía las normas del juego: <br> `Las normas del juego son sencillas:` <br> `- Cuando sea tu turno, escribe la casilla...` <br> `- El formato es: 1 1 (fila 1 columna 1)`<br> `- ...`<br> `- Introduce 'SALIR' para dejar de juegar.` <br> `¡¡Buena suerte!!` |
 
 ---
 
